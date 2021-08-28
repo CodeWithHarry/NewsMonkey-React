@@ -11,6 +11,7 @@
     "react-infinite-scroll-component": "^6.1.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-top-loading-bar": "^2.0.1",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
