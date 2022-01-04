@@ -9,7 +9,7 @@ import LoadingBar from 'react-top-loading-bar'
 const App = ()=> {
   const pageSize = 5;
   const apiKey = process.env.REACT_APP_NEWS_API
-  const [progress, setProgress] = useState(0)
+  const [Progress, setProgress] = useState(0)
  
     return (
       <div>
@@ -18,7 +18,7 @@ const App = ()=> {
         <LoadingBar
         height={3}
         color='#f11946'
-        progress={progress} 
+        progress={Progress} 
       />
         <Switch>
           <Route exact path="/"><News setProgress={setProgress} apiKey={apiKey} key="general" pageSize={pageSize} country="in" category="general"/></Route> 
