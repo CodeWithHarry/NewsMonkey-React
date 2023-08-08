@@ -4,6 +4,10 @@ import categories from '../data/categories.json'
 
 const NavBar = () => {
 
+    const capitalizeFirstLetter = (string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    } 
+
     return (
         <div>
             <nav className="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
@@ -16,7 +20,7 @@ const NavBar = () => {
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             {categories.map((category) => {
                                 return <li className="nav-item" key={category}>
-                                <Link className="nav-link" to={`/${category}`}>{category.toUpperCase()}</Link>
+                                <Link className="nav-link" to={`/${category}`}>{capitalizeFirstLetter(category)}</Link>
                                 </li>
                             })}                            
                         </ul>
