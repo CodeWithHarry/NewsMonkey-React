@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from "react-router-dom";
+import React,{useEffect} from 'react'
+import { Link, useLocation } from "react-router-dom";
 import categories from '../data/categories.json'
 import countries from '../data/countries.json'
 
@@ -13,6 +13,10 @@ const NavBar = (props) => {
         props.setCountry(event.target.value);
     };
 
+    let location = useLocation();
+
+    useEffect(() => {}, [location]);
+
     return (
         <div>
             <nav className="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
@@ -25,7 +29,7 @@ const NavBar = (props) => {
                         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             {categories.map((category) => {
                                 return <li className="nav-item" key={category}>
-                                <Link className="nav-link" to={`/${category}`}>{capitalizeFirstLetter(category)}</Link>
+                                <Link className={`nav-link ${location.pathname === '/'+category ? 'active':'' }`} to={`/${category}`}>{capitalizeFirstLetter(category)}</Link>
                                 </li>
                             })}
                         </ul>
