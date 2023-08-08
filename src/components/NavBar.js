@@ -10,7 +10,6 @@ const NavBar = (props) => {
     } 
 
     const handleCountryChange = (event) => {
-        console.log(event.target.value)
         props.setCountry(event.target.value);
     };
 
