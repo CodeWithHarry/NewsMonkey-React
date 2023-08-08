@@ -8,7 +8,7 @@ import LoadingBar from 'react-top-loading-bar'
 import categories from './data/categories.json'
 
 const App = ()=> {
-  const pageSize = 5;
+  const pageSize = 6;
   const apiKey = process.env.REACT_APP_NEWS_API
   const [progress, setProgress] = useState(0)
   const [country, setCountry] = useState('in')
