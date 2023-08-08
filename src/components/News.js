@@ -58,7 +58,7 @@ const News = (props)=>{
                 > 
                     <div className="container">                         
                         <div className="row">                        
-                            {articles.length && articles.map((article) => {
+                            {articles.map((article) => {
                                 return <div className="col-md-4" key={article.url}>
                                     <NewsItem article={article} />
                                 </div>
