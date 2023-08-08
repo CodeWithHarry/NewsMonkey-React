@@ -10,6 +10,7 @@ const News = (props)=>{
     const [loading, setLoading] = useState(true)
     const [page, setPage] = useState(1)
     const [totalResults, setTotalResults] = useState(0)
+    const newsUrl = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&pageSize=${props.pageSize}`; 
     
     const capitalizeFirstLetter = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
@@ -17,7 +18,7 @@ const News = (props)=>{
 
     const updateNews = async ()=> {
         props.setProgress(10);
-        const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`; 
+        const url = newsUrl + `&page=${page}`;
         setLoading(true)
         let data = await fetch(url);
         props.setProgress(30);
@@ -37,7 +38,7 @@ const News = (props)=>{
 
 
     const fetchMoreData = async () => {   
-        const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page+1}&pageSize=${props.pageSize}`;
+        const url = newsUrl + `&page=${page+1}`;
         setPage(page+1) 
         let data = await fetch(url);
         let parsedData = await data.json()

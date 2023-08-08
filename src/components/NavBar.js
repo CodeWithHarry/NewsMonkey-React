@@ -1,12 +1,18 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 import categories from '../data/categories.json'
+import countries from '../data/countries.json'
 
-const NavBar = () => {
+const NavBar = (props) => {
 
     const capitalizeFirstLetter = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     } 
+
+    const handleCountryChange = (event) => {
+        console.log(event.target.value)
+        props.setCountry(event.target.value);
+    };
 
     return (
         <div>
@@ -22,8 +28,15 @@ const NavBar = () => {
                                 return <li className="nav-item" key={category}>
                                 <Link className="nav-link" to={`/${category}`}>{capitalizeFirstLetter(category)}</Link>
                                 </li>
-                            })}                            
+                            })}
                         </ul>
+                        <form className="d-flex">
+                        <select className="form-select" onChange={handleCountryChange} value={props.country}>
+                            {countries.map((country) => {
+                                return <option value={country} key={country}>{country.toUpperCase()}</option>
+                            })}
+                        </select>
+                        </form>
                     </div>
                 </div>
             </nav>
