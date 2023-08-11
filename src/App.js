@@ -16,7 +16,7 @@ const App = ()=> {
     return (
       <div>
         <Router>
-        <NavBar setCountry={setCountry} country={country}/>
+        <NavBar setCountry={setCountry} country={country}>
         <LoadingBar
         height={3}
         color='#f11946'
@@ -30,6 +30,7 @@ const App = ()=> {
               </Route> 
         })}
         </Switch>
+        </NavBar>
         </Router>
       </div>
     )
