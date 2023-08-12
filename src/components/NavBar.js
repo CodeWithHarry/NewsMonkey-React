@@ -1,21 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import categories from "../data/categories.json";
-import countries from "../data/countries.json";
 import ScrollButton from "./ScrollButton";
+import CountryContext from "../context/country/CountryContext"
 
 const NavBar = (props) => {
+
+  const context = useContext(CountryContext);
+  const { country, setcountry, countries } = context;
+
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
-  const handleCountryChange = (event) => {
-    props.setCountry(event.target.value);
-  };
-
   let location = useLocation();
-
-  useEffect(() => {}, [location]);
 
   return (
     <>
@@ -55,8 +53,8 @@ const NavBar = (props) => {
             <form className="d-flex">
               <select
                 className="form-select"
-                onChange={handleCountryChange}
-                value={props.country}
+                onChange={(e) => setcountry(e.target.value)}
+                value={country}
               >
                 {countries.map((country) => {
                   return (
