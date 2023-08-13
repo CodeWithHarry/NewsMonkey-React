@@ -21,19 +21,14 @@ const News = (props) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    const fetchData = async () => {
+    const fetchData = async () => {        
         props.setProgress(10);
         setError('')
         await axios.get(apiUrl + `&page=${page + 1}`)
             .then(response => {
                 setPage(page + 1)
-                props.setProgress(30);
-                if (prevCountryRef.current === country) {
-                    setArticles(articles.concat(response.data.articles))
-                }else{
-                    prevCountryRef.current = country
-                    setArticles(response.data.articles)
-                }
+                props.setProgress(30);                
+                setArticles(articles.concat(response.data.articles))
                 setTotalResults(response.data.totalResults)
                 props.setProgress(70);
             })
@@ -52,6 +47,11 @@ const News = (props) => {
 
     useEffect(() => {
         document.title = `${capitalizeFirstLetter(props.category)} - {process.env.REACT_APP_NAME} - ${country.toUpperCase()}`;
+        if (prevCountryRef.current !== country) {
+            setArticles([])
+            setPage(0)
+            prevCountryRef.current = country
+        }
         fetchData();
         // eslint-disable-next-line
     }, [country])
