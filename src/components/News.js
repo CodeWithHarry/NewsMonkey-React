@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext, useRef } from 'react'
 import axios from 'axios';
 import NewsItem from './NewsItem'
 import Spinner from './Spinner';
@@ -14,6 +14,7 @@ const News = (props) => {
     const [totalResults, setTotalResults] = useState(0)
     const context = useContext(CountryContext);
     const { country } = context;
+    const prevCountryRef = useRef();
     const apiUrl = `https://newsapi.org/v2/top-headlines?country=${country}&category=${props.category}&apiKey=${props.apiKey}&pageSize=${props.pageSize}`;
 
     const capitalizeFirstLetter = (string) => {
@@ -26,18 +27,24 @@ const News = (props) => {
         await axios.get(apiUrl + `&page=${page + 1}`)
             .then(response => {
                 setPage(page + 1)
-                props.setProgress(70);
-                setArticles(articles.concat(response.data.articles))
+                props.setProgress(30);
+                if (prevCountryRef.current === country) {
+                    setArticles(articles.concat(response.data.articles))
+                }else{
+                    prevCountryRef.current = country
+                    setArticles(response.data.articles)
+                }
                 setTotalResults(response.data.totalResults)
+                props.setProgress(70);
             })
             .catch(errorResponse => {
                 props.setProgress(70);
-                setTotalResults(0)                
+                setTotalResults(0)
                 setError(errorResponse.message)
                 window.scrollTo({
                     top: 0,
                     behavior: "smooth",
-                  });
+                });
             })
         setLoading(false)
         props.setProgress(100);
