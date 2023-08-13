@@ -46,7 +46,7 @@ const News = (props) => {
     }
 
     useEffect(() => {
-        document.title = `${capitalizeFirstLetter(props.category)} - {process.env.REACT_APP_NAME} - ${country.toUpperCase()}`;
+        document.title = `${capitalizeFirstLetter(props.category)} - ${process.env.REACT_APP_NAME} - ${country.toUpperCase()}`;
         if (prevCountryRef.current !== country) {
             setArticles([])
             setPage(0)
