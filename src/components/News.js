@@ -58,7 +58,7 @@ const News = (props) => {
 
     return (
         <>
-            <h1 className="text-center" style={{ margin: '90px 0px 35px' }}>{process.env.REACT_APP_NAME} - Top {capitalizeFirstLetter(props.category)} Headlines</h1>
+            <h1 className="text-center" style={{ margin: '90px 0px 35px' }}>{process.env.REACT_APP_NAME} - Top {capitalizeFirstLetter(props.category)} Headlines ({country.toUpperCase()})</h1>
             {loading && <Spinner />}
             {error.length !== 0 && <div className="alert alert-danger" role="alert">
                 {error}
@@ -84,14 +84,12 @@ const News = (props) => {
 }
 
 
-News.defaultProps = {
-    country: 'in',
+News.defaultProps = {    
     pageSize: 6,
     category: 'general',
 }
 
 News.propTypes = {
-    country: PropTypes.string,
     pageSize: PropTypes.number,
     category: PropTypes.string,
 }
