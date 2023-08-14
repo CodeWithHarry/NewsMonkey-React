@@ -7,10 +7,12 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import CountryContext from "../context/country/CountryContext"
 
 const News = (props) => {
-    const [articles, setArticles] = useState([])
+    const initialPage = 1
+    const initialArticles = []
+    const [articles, setArticles] = useState(initialArticles)
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(true)
-    const [page, setPage] = useState(0)
+    const [page, setPage] = useState(initialPage)
     const [totalResults, setTotalResults] = useState(0)
     const context = useContext(CountryContext);
     const { country } = context;
@@ -20,14 +22,14 @@ const News = (props) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    const fetchMoreData = async () => {        
+    const fetchData = async (pageNumber, oldArticles) => {
         props.setProgress(10);
         setError('')
-        await axios.get(apiUrl + `&page=${page + 1}`)
+        await axios.get(apiUrl + `&page=${pageNumber}`)
             .then(response => {
-                setPage(page + 1)
-                props.setProgress(30);                
-                setArticles(articles.concat(response.data.articles))
+                setPage(pageNumber)
+                props.setProgress(30);
+                setArticles(oldArticles.concat(response.data.articles))
                 setTotalResults(response.data.totalResults)
                 props.setProgress(70);
             })
@@ -40,35 +42,16 @@ const News = (props) => {
                     behavior: "smooth",
                 });
             })
-        props.setProgress(100);
-    }
-
-    const fetchData = async () => { 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-        });
-        props.setProgress(10);
-        setError('')
-        await axios.get(apiUrl + `&page=1`)
-            .then(response => {
-                setPage(1)
-                props.setProgress(30);    
-                setArticles(response.data.articles)
-                setTotalResults(response.data.totalResults)
-                props.setProgress(70);
-            })
-            .catch(errorResponse => {
-                props.setProgress(70);
-                setTotalResults(0)
-                setError(errorResponse.message)                
-            })
         setLoading(false)
         props.setProgress(100);
     }
 
-    useEffect(() => {       
-        fetchData();
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+        fetchData(initialPage, initialArticles);
         // eslint-disable-next-line
     }, [country])
 
@@ -81,7 +64,7 @@ const News = (props) => {
             </div>}
             <InfiniteScroll
                 dataLength={articles.length}
-                next={fetchMoreData}
+                next={() => fetchData(page + 1, articles)}
                 hasMore={articles.length !== totalResults}
                 loader={<Spinner />}
             >
@@ -100,7 +83,7 @@ const News = (props) => {
 }
 
 
-News.defaultProps = {    
+News.defaultProps = {
     pageSize: 6,
     category: 'general',
 }
