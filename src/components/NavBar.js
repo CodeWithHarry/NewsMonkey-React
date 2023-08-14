@@ -52,7 +52,7 @@ const NavBar = (props) => {
             </ul>
             <form className="d-flex">
               <select
-                className="form-select"
+                className="form-select bg-secondary text-white"
                 onChange={(e) => setcountry(e.target.value)}
                 value={country}
               >
