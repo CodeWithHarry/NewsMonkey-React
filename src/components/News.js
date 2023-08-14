@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useRef } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import axios from 'axios';
 import NewsItem from './NewsItem'
 import Spinner from './Spinner';
@@ -14,14 +14,13 @@ const News = (props) => {
     const [totalResults, setTotalResults] = useState(0)
     const context = useContext(CountryContext);
     const { country } = context;
-    const prevCountryRef = useRef();
     const apiUrl = `https://newsapi.org/v2/top-headlines?country=${country}&category=${props.category}&apiKey=${props.apiKey}&pageSize=${props.pageSize}`;
 
     const capitalizeFirstLetter = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    const fetchData = async () => {        
+    const fetchMoreData = async () => {        
         props.setProgress(10);
         setError('')
         await axios.get(apiUrl + `&page=${page + 1}`)
@@ -41,17 +40,34 @@ const News = (props) => {
                     behavior: "smooth",
                 });
             })
+        props.setProgress(100);
+    }
+
+    const fetchData = async () => { 
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
+        props.setProgress(10);
+        setError('')
+        await axios.get(apiUrl + `&page=1`)
+            .then(response => {
+                setPage(1)
+                props.setProgress(30);    
+                setArticles(response.data.articles)
+                setTotalResults(response.data.totalResults)
+                props.setProgress(70);
+            })
+            .catch(errorResponse => {
+                props.setProgress(70);
+                setTotalResults(0)
+                setError(errorResponse.message)                
+            })
         setLoading(false)
         props.setProgress(100);
     }
 
-    useEffect(() => {
-        document.title = `${capitalizeFirstLetter(props.category)} - ${process.env.REACT_APP_NAME} - ${country.toUpperCase()}`;
-        if (prevCountryRef.current !== country) {
-            setArticles([])
-            setPage(0)
-            prevCountryRef.current = country
-        }
+    useEffect(() => {       
         fetchData();
         // eslint-disable-next-line
     }, [country])
@@ -65,7 +81,7 @@ const News = (props) => {
             </div>}
             <InfiniteScroll
                 dataLength={articles.length}
-                next={fetchData}
+                next={fetchMoreData}
                 hasMore={articles.length !== totalResults}
                 loader={<Spinner />}
             >
