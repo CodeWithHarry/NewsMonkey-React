@@ -22,7 +22,7 @@ const News = (props) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    const fetchData = async (pageNumber, oldArticles) => {
+    const fetchData = async (pageNumber = initialPage, oldArticles = initialArticles) => {
         props.setProgress(10);
         setError('')
         await axios.get(apiUrl + `&page=${pageNumber}`)
@@ -51,7 +51,7 @@ const News = (props) => {
             top: 0,
             behavior: "smooth",
         });
-        fetchData(initialPage, initialArticles);
+        fetchData();
         // eslint-disable-next-line
     }, [country])
 
