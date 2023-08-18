@@ -16,7 +16,8 @@ const News = (props) => {
     const [totalResults, setTotalResults] = useState(0)
     const context = useContext(CountryContext);
     const { country } = context;
-    const apiUrl = `https://newsapi.org/v2/top-headlines?country=${country}&category=${props.category}&apiKey=${props.apiKey}&pageSize=${props.pageSize}`;
+    const apiKey = process.env.REACT_APP_NEWS_API;
+    const apiUrl = `https://newsapi.org/v2/top-headlines?apiKey=${apiKey}&country=${country}&category=${props.category}&pageSize=${props.pageSize}`;
 
     const capitalizeFirstLetter = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);

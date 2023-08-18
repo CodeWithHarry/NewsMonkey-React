@@ -2,10 +2,9 @@ import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import categories from "../data/categories.json";
 import ScrollButton from "./ScrollButton";
-import CountryContext from "../context/country/CountryContext"
+import CountryContext from "../context/country/CountryContext";
 
 const NavBar = (props) => {
-
   const context = useContext(CountryContext);
   const { country, setcountry, countries } = context;
 
@@ -31,7 +30,7 @@ const NavBar = (props) => {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span className="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
@@ -73,7 +72,8 @@ const NavBar = (props) => {
         <ScrollButton />
       </div>
       <footer className="navbar fixed-bottom bg-dark text-white justify-content-center">
-          Copyright © {(new Date()).getFullYear()} {process.env.REACT_APP_NAME}. All Rights Reserved.
+        Copyright © {new Date().getFullYear()} {process.env.REACT_APP_NAME}. All
+        Rights Reserved.
       </footer>
     </>
   );
