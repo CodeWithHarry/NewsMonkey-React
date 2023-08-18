@@ -1,4 +1,3 @@
-import "./App.css";
 import React, { useState } from "react";
 import NavBar from "./components/NavBar";
 import News from "./components/News";
@@ -8,7 +7,7 @@ import categories from "./data/categories.json";
 import CountryState from "./context/country/CountryState";
 
 const App = () => {
-  const pageSize = 9;  
+  const pageSize = 9;
   const [progress, setProgress] = useState(0);
   return (
     <CountryState>
@@ -20,7 +19,7 @@ const App = () => {
             path="/"
             element={
               <News
-                setProgress={setProgress}                
+                setProgress={setProgress}              
                 key="home"
                 pageSize={pageSize}
                 category="general"
