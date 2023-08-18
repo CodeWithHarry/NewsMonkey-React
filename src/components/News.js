@@ -5,6 +5,7 @@ import Spinner from "./Spinner";
 import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroll-component";
 import CountryContext from "../context/country/CountryContext";
+import ProgressContext from "../context/country/ProgressContext";
 
 const News = (props) => {
   const initialPage = 1;
@@ -14,8 +15,12 @@ const News = (props) => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(initialPage);
   const [totalResults, setTotalResults] = useState(0);
-  const context = useContext(CountryContext);
-  const { country } = context;
+  const countryContext = useContext(CountryContext);
+  const { country } = countryContext;
+
+  const progressContext = useContext(ProgressContext);
+  const { setProgress } = progressContext;
+
   const apiKey = process.env.REACT_APP_NEWS_API;
   const apiUrl = `https://newsapi.org/v2/top-headlines?apiKey=${apiKey}&country=${country}&category=${props.category}&pageSize=${props.pageSize}`;
 
@@ -27,19 +32,19 @@ const News = (props) => {
     pageNumber = initialPage,
     oldArticles = initialArticles
   ) => {
-    props.setProgress(10);
+    setProgress(10);
     setError("");
     await axios
       .get(apiUrl + `&page=${pageNumber}`)
       .then((response) => {
         setPage(pageNumber);
-        props.setProgress(30);
+        setProgress(30);
         setArticles(oldArticles.concat(response.data.articles));
         setTotalResults(response.data.totalResults);
-        props.setProgress(70);
+        setProgress(70);
       })
       .catch((errorResponse) => {
-        props.setProgress(70);
+        setProgress(70);
         setTotalResults(0);
         setError(errorResponse.message);
         window.scrollTo({
@@ -48,7 +53,7 @@ const News = (props) => {
         });
       });
     setLoading(false);
-    props.setProgress(100);
+    setProgress(100);
   };
 
   useEffect(() => {
@@ -63,7 +68,7 @@ const News = (props) => {
   return (
     <>
       <h1 className="text-center" style={{ margin: "90px 0px 35px" }}>
-        {`${process.env.REACT_APP_NAME} - Top ${capitalizeFirstLetter(props.category)} Headlines ( ${country.toUpperCase()} )`}
+        {`${process.env.REACT_APP_NAME} - ${country.toUpperCase()} - Top ${capitalizeFirstLetter(props.category)} Headlines`}
       </h1>
       {loading && <Spinner />}
       {error.length !== 0 && (
