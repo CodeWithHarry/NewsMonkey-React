@@ -26,7 +26,7 @@ const ScrollButton = () => {
         bottom: "50px",
       }}
     >
-      <i onClick={scrollToTop} className="btn btn-dark rounded-circle border-3">
+      <i onClick={scrollToTop} className="btn btn-dark rounded-circle border-5">
         &#8593;
       </i>
     </div>
