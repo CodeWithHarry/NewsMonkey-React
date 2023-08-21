@@ -17,9 +17,7 @@ const News = (props) => {
   const [totalResults, setTotalResults] = useState(0);
   const countryContext = useContext(CountryContext);
   const { country } = countryContext;
-
   const { setLoadProgress } = useLoadProgress();
-
   const apiKey = process.env.REACT_APP_NEWS_API;
   const apiUrl = `https://newsapi.org/v2/top-headlines?apiKey=${apiKey}&country=${country}&category=${props.category}&pageSize=${props.pageSize}`;
 
@@ -67,7 +65,9 @@ const News = (props) => {
   return (
     <>
       <h1 className="text-center" style={{ margin: "90px 0px 35px" }}>
-        {`${process.env.REACT_APP_NAME} - ${country.toUpperCase()} - Top ${capitalizeFirstLetter(props.category)} Headlines`}
+        {`${country.toUpperCase()} - Top ${capitalizeFirstLetter(
+          props.category
+        )} Headlines`}
       </h1>
       {loading && <Spinner />}
       {error.length !== 0 && (
@@ -98,7 +98,7 @@ const News = (props) => {
 };
 
 News.defaultProps = {
-  pageSize: 9,
+  pageSize: 30,
   category: "general",
 };
 

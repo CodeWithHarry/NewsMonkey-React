@@ -6,7 +6,7 @@ import categories from "./data/categories.json";
 import { LoadProgressProvider } from "./context/LoadProgressProvider";
 
 const App = () => {
-  const pageSize = 9;
+  const pageSize = 30;
   return (
     <LoadProgressProvider>
       <Layout>
