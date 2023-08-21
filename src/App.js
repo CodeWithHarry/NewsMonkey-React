@@ -3,12 +3,11 @@ import Layout from "./components/Layout";
 import News from "./components/News";
 import { Routes, Route } from "react-router-dom";
 import categories from "./data/categories.json";
-import { LoadProgressProvider } from "./context/LoadProgressProvider";
+
 
 const App = () => {
   const pageSize = 30;
-  return (
-    <LoadProgressProvider>
+  return (    
       <Layout>
         <Routes>
           <Route
@@ -34,7 +33,6 @@ const App = () => {
           })}
         </Routes>
       </Layout>
-    </LoadProgressProvider>
   );
 };
 
