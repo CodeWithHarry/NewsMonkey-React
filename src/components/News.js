@@ -5,7 +5,7 @@ import Spinner from "./Spinner";
 import PropTypes from "prop-types";
 import InfiniteScroll from "react-infinite-scroll-component";
 import CountryContext from "../context/country/CountryContext";
-import ProgressContext from "../context/country/ProgressContext";
+import { useLoadProgress } from "../context/LoadProgressProvider";
 
 const News = (props) => {
   const initialPage = 1;
@@ -18,8 +18,7 @@ const News = (props) => {
   const countryContext = useContext(CountryContext);
   const { country } = countryContext;
 
-  const progressContext = useContext(ProgressContext);
-  const { setProgress } = progressContext;
+  const { setLoadProgress } = useLoadProgress();
 
   const apiKey = process.env.REACT_APP_NEWS_API;
   const apiUrl = `https://newsapi.org/v2/top-headlines?apiKey=${apiKey}&country=${country}&category=${props.category}&pageSize=${props.pageSize}`;
@@ -32,19 +31,19 @@ const News = (props) => {
     pageNumber = initialPage,
     oldArticles = initialArticles
   ) => {
-    setProgress(10);
+    setLoadProgress(10);
     setError("");
     await axios
       .get(apiUrl + `&page=${pageNumber}`)
       .then((response) => {
         setPage(pageNumber);
-        setProgress(30);
+        setLoadProgress(30);
         setArticles(oldArticles.concat(response.data.articles));
         setTotalResults(response.data.totalResults);
-        setProgress(70);
+        setLoadProgress(70);
       })
       .catch((errorResponse) => {
-        setProgress(70);
+        setLoadProgress(70);
         setTotalResults(0);
         setError(errorResponse.message);
         window.scrollTo({
@@ -53,7 +52,7 @@ const News = (props) => {
         });
       });
     setLoading(false);
-    setProgress(100);
+    setLoadProgress(100);
   };
 
   useEffect(() => {

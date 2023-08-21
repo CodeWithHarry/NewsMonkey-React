@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import categories from "../data/categories.json";
 import CountryContext from "../context/country/CountryContext";
 
@@ -11,14 +11,12 @@ const NavBar = (props) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
-  let location = useLocation();
-
   return (
     <nav className="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">
+        <NavLink className="navbar-brand" to="/">
           {process.env.REACT_APP_NAME}
-        </Link>
+        </NavLink>
         <button
           className="navbar-toggler"
           type="button"
@@ -35,14 +33,12 @@ const NavBar = (props) => {
             {categories.map((category) => {
               return (
                 <li className="nav-item" key={category}>
-                  <Link
-                    className={`nav-link ${
-                      location.pathname === "/" + category ? "active" : ""
-                    }`}
+                  <NavLink
+                    className="nav-link"
                     to={`/${category}`}
                   >
                     {capitalizeFirstLetter(category)}
-                  </Link>
+                  </NavLink>
                 </li>
               );
             })}
