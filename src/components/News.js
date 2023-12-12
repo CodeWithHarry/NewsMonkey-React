@@ -41,7 +41,18 @@ const News = (props)=>{
         setPage(page+1) 
         let data = await fetch(url);
         let parsedData = await data.json()
-        setArticles(articles.concat(parsedData.articles))
+        
+        /*News with no image and titles will be filtered */
+        const filteredArticles = parsedData.articles.filter(article => article.title && article.urlToImage);
+        if (filteredArticles.length > 0) {
+            this.setState({ articles: filteredArticles });
+          } else {
+            this.setState({ articles: [], error: "No news available" });
+
+          }
+        } catch (error) {
+          console.error("Error fetching data:", error);
+          this.setState({ articles: [], error: "Error fetching news data" });
         setTotalResults(parsedData.totalResults)
       };
  
